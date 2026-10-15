@@ -19,6 +19,7 @@ The plasmoid can by configured in the settings menu:
  (to show "Off" state)
  - Check status on startup: Run once "Status script" on system startup
  - Run periodically: Run "Status Script" in defined interval
+ The hover text displayed whether a script statu is on or off, is customizable in it's respective section
 
 
 ## Example usage
