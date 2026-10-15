@@ -13,11 +13,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  */
-import QtQuick 2.2
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 2.2
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-Item {
+import org.kde.kcmutils as KCM
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
+
+KCM.SimpleKCM {
     id: configPage
 
     property alias cfg_onScriptEnabled: onScriptEnabledBox.checked
@@ -32,6 +36,8 @@ Item {
     property string cfg_iconOn: plasmoid.configuration.iconOn
     property string cfg_iconOff: plasmoid.configuration.iconOff
     property alias cfg_commandName: commandNameText.text
+    property alias cfg_tooltipOn: tooltipOnText.text
+    property alias cfg_tooltipOff: tooltipOffText.text
     
     function setInterval() {
         if (updateIntervalUnitSpinBox.value == 1) {
@@ -43,7 +49,7 @@ Item {
         }
     }
     
-    ColumnLayout {
+    Kirigami.FormLayout {
         GridLayout {
             columns: 2
             Label {
@@ -97,15 +103,26 @@ Item {
                     onIconChanged: cfg_iconOn = iconName
                     enabled: true
             }
- 
             Label {
                 Layout.row: 4
+                Layout.column: 0
+                text: i18n("Hover text")
+            }
+            TextField {
+                Layout.row: 4
+                Layout.column: 1
+                id: tooltipOnText
+                Layout.minimumWidth: 300
+            }
+ 
+            Label {
+                Layout.row: 5
                 Layout.column: 0
                 text: i18n("Off-Script")
                 font.weight: Font.Bold
             }
             CheckBox {
-                Layout.row: 4
+                Layout.row: 5
                 Layout.column: 1
                 id: offScriptEnabledBox
                 checked: offScriptText.activeFocus || offScriptText.length
@@ -114,39 +131,50 @@ Item {
                 onClicked: if (checked) offScriptText.forceActiveFocus();
             }
             Label {
-                Layout.row: 5
+                Layout.row: 6
                 Layout.column: 0
                 text: i18n("Script")
             }
             TextField {
-                Layout.row: 5
+                Layout.row: 6
                 Layout.column: 1
                 id: offScriptText
                 Layout.minimumWidth: 300
                 enabled: offScriptEnabledBox.checked
             }
             Label {
-                Layout.row: 6
+                Layout.row: 7
                 Layout.column: 0
                 text: i18n("Icon")
             }
             IconPicker {
-                Layout.row: 6
+                Layout.row: 7
                 Layout.column: 1
                 currentIcon: cfg_iconOff
                 defaultIcon: "security-high"
                     onIconChanged: cfg_iconOff = iconName
                     enabled: true
             }
+            Label {
+                Layout.row: 8
+                Layout.column: 0
+                text: i18n("Hover text")
+            }
+            TextField {
+                Layout.row: 8
+                Layout.column: 1
+                id: tooltipOffText
+                Layout.minimumWidth: 300
+            }
             
             Label {
-                Layout.row: 7
+                Layout.row: 9
                 Layout.column: 0
                 text: i18n("Status script")
                 font.weight: Font.Bold
             }
             CheckBox {
-                Layout.row: 7
+                Layout.row: 9
                 Layout.column: 1
                 id: statusScriptEnabledBox
                 checked: checkStatusScriptText.activeFocus || checkStatusScriptText.length
@@ -156,12 +184,12 @@ Item {
             }
             
             Label {
-                Layout.row: 8
+                Layout.row: 10
                 Layout.column: 0
                 text: i18n("Script")
             }
             TextField {
-                Layout.row: 8
+                Layout.row: 10
                 Layout.column: 1
                 id: checkStatusScriptText
                 Layout.minimumWidth: 300
@@ -169,13 +197,13 @@ Item {
             }
             
             Label {
-                Layout.row: 9
+                Layout.row: 11
                 Layout.column: 0
                 text: i18n("Run every")
             }
             GridLayout {
                 columns: 2
-                Layout.row: 9
+                Layout.row: 11
                 Layout.column: 1
                 SpinBox {
                     Layout.row: 0
@@ -197,8 +225,8 @@ Item {
                     
                     property var items: ["s", "min", "h"]
                     
-                    validator: RegExpValidator {
-                        regExp: new RegExp("(s|min|h)", "i")
+                    validator: RegularExpressionValidator {
+                        regularExpression: /(s|min|h)/i
                     }
                     
                     textFromValue: function(value) {
@@ -215,7 +243,7 @@ Item {
                 }
             }
             CheckBox {
-                Layout.row: 10
+                Layout.row: 12
                 Layout.column: 1
                 id: runStatusScriptBox
                 text: i18n("Check status on startup")
