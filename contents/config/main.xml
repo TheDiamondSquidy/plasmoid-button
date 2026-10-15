@@ -58,5 +58,13 @@
         <label>Used internally - interval 2 minutes</label>
         <default>120</default>
     </entry>
+    <entry name="tooltipOn" type="String">
+      <label>Hover text when on</label>
+      <default></default>
+    </entry>
+    <entry name="tooltipOff" type="String">
+      <label>Hover text when off</label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>
